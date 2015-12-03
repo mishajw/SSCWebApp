@@ -1,18 +1,20 @@
 @main("Send mail") {
-  <form>
+  <form action="/send" method="post">
     <table>
       <tr>
         <td>To</td>
-        <td><input type="text" name="to"/></td>
+        <td><input type="text" name="to" value="mishajw@@gmail.com"/></td>
       </tr>
       <tr>
         <td>Subject</td>
-        <td><input type="text" name="subject"/></td>
+        <td><input type="text" name="subject" value="Test Subject"/></td>
       </tr>
       <tr>
         <td>Body</td>
-        <td><input type="text" name="body"/></td>
+        <td><input type="text" name="body" value="Test Body"/></td>
       </tr>
     </table>
+
+    <button type="submit">Send</button>
   </form>
 }
