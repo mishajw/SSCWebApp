@@ -8,13 +8,6 @@ object MailSender {
   def send(email: String, pass: String, server: String,
            to: String, subject: String, body: String): Unit = {
 
-    println(email)
-    println(pass)
-    println(server)
-    println(to)
-    println(subject)
-    println(body)
-
     val message = createPlainMessage(email, pass, server)
     message.setFrom(new InternetAddress(email))
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(to))
