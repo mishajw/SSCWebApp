@@ -1,0 +1,20 @@
+@main("Log in") {
+  <form action="@routes.Application.login" method="post">
+    <table>
+      <tr>
+        <td>Email</td>
+        <td><input type="text" name="email" value="mishajw@@gmail.com"/></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input type="password" name="pass" value="passw0rd"/></td>
+      </tr>
+      <tr>
+        <td>Server</td>
+        <td><input type="text" name="server" value="smtp.gmail.com"/></td>
+      </tr>
+    </table>
+
+    <button type="submit">Log in</button>
+  </form>
+}
