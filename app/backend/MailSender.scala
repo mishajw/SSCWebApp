@@ -4,11 +4,23 @@ import java.util.Properties
 import javax.mail._
 import javax.mail.internet.{MimeBodyPart, MimeMultipart, InternetAddress, MimeMessage}
 
-object MailSender {
-  def send(email: String, pass: String, server: String,
-           to: String, subject: String, body: String): Unit = {
+class MailSender(email: String, pass: String, server: String) {
 
-    val message = createPlainMessage(email, pass, server)
+  /**
+    * Details on the connection
+    */
+  private val PORT = 587
+  private val session = createSession
+  private val transport = createTransport
+
+  /**
+    * Send a message
+    * @param to email address to
+    * @param subject subject of message
+    * @param body body of message
+    */
+  def send(to: String, subject: String, body: String): Unit = {
+    val message = new MimeMessage(session)
     message.setFrom(new InternetAddress(email))
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(to))
     message.setSubject(subject)
@@ -19,17 +31,28 @@ object MailSender {
     messageBody.addBodyPart(messageBodyText)
     message.setContent(messageBody)
 
-    Transport.send(message)
+    transport.sendMessage(message, Array(new InternetAddress(to)))
   }
 
-  private def createPlainMessage(email: String, pass: String, host: String): Message = {
+  /**
+    * Close the connection
+    */
+  def close(): Unit = {
+    transport.close()
+  }
+
+  /**
+    * Create a session for sending
+    * @return
+    */
+  private def createSession = {
     val props = new Properties
 
     // SMTP
     props.put("mail.smtp.auth", "true")
     props.put("mail.smtp.starttls.enable", "true")
-    props.put("mail.smtp.host", host)
-    props.put("mail.smtp.port", "587")
+    props.put("mail.smtp.host", server)
+    props.put("mail.smtp.port", PORT.toString)
 
     //IMAP
     props.put("mail.store.protocol", "imaps")
@@ -38,11 +61,20 @@ object MailSender {
     props.put("mail.user", email)
     props.put("mail.password", pass)
 
-    val session = Session.getInstance(props, new Authenticator {
+    Session.getInstance(props, new Authenticator {
       override def getPasswordAuthentication: PasswordAuthentication =
         new PasswordAuthentication(email, pass)
     })
+  }
 
-    new MimeMessage(session)
+  /**
+    * Create a method of transport
+    * Throws error if bad credentials
+    * @return
+    */
+  private def createTransport = {
+    val transport = session.getTransport("smtp")
+    transport.connect(server, PORT, email, pass)
+    transport
   }
 }
