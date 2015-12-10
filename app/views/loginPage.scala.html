@@ -1,17 +1,19 @@
+@(email: String = "mishajw@gmail.com", password: String = "", server: String = "smtp.gmail.com")
+
 @main("Log in") {
   <form action="@routes.Application.login" method="post">
     <table>
       <tr>
         <td>Email</td>
-        <td><input type="text" name="email" value="mishajw@@gmail.com"/></td>
+        <td><input type="text" name="email" value="@email"/></td>
       </tr>
       <tr>
         <td>Password</td>
-        <td><input type="password" name="pass" value="passw0rd"/></td>
+        <td><input type="password" name="pass" value="@password"/></td>
       </tr>
       <tr>
         <td>Server</td>
-        <td><input type="text" name="server" value="smtp.gmail.com"/></td>
+        <td><input type="text" name="server" value="@server"/></td>
       </tr>
     </table>
 

@@ -9,6 +9,7 @@ GET     /mail                       controllers.Application.mail
 GET     /logoutPage                 controllers.Application.logoutPage
 GET     /sent                       controllers.Application.sent
 GET     /loginFailed                controllers.Application.loginFailed
+GET     /retryLogin                 controllers.Application.retryLogin
 
 POST    /login                      controllers.Application.login
 POST    /send                       controllers.Application.send
